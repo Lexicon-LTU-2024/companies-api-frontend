@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { addTokenToRequestInit, CustomError, hasTokenExpired, ITokens, TOKENS } from "../utils";
+import {
+  addTokenToRequestInit,
+  CustomError,
+  hasTokenExpired,
+  ITokens,
+  refreshTokens,
+  TOKENS,
+} from "../utils";
 import { useLocalStorage } from "usehooks-ts";
 
 interface IUseFetchWithTokenReturn<T> {
@@ -39,6 +46,25 @@ export function useFetchWithToken<T>(
     if (tokenIsExpired) {
       // Ask api to refresh token before fetching the data.
       console.log("Token is expired:", tokenIsExpired);
+
+      await refreshTokens(tokens!.accessToken, tokens!.refreshToken)
+        .then(async (refreshedTokens) => {
+          setTokens(refreshedTokens);
+          return await generatedFetch<T>(refreshedTokens.accessToken);
+        })
+        .then((data) => {
+          if (data) {
+            setData(data);
+          }
+        })
+        .catch((error) => {
+          if (error instanceof CustomError) {
+            setError(error);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     } else {
       // Just fetch the data right away
 
