@@ -1,0 +1,14 @@
+#login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .login-form {
+    fieldset {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+}
