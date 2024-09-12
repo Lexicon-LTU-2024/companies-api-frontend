@@ -1,7 +1,6 @@
 import { FormEventHandler, ReactElement, useState } from "react";
 import { useAuthContext } from "../hooks";
 import { Navigate, useNavigate } from "react-router-dom";
-import { CustomError } from "../utils";
 
 export function LoginPage(): ReactElement {
   const [username, setUsername] = useState<string>("");

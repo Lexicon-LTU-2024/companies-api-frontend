@@ -1,11 +1,11 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { Companies, RequireAuth } from "../components";
+import { Companies } from "../components";
 import { LoginPage, StartPage } from "../pages";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route element={<RequireAuth children={<StartPage />} />}>
+      <Route element={<StartPage />} path="/">
         <Route element={<Companies />} index />
       </Route>
       <Route element={<LoginPage />} path="/login" />
